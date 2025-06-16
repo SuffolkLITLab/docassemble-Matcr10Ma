@@ -99,6 +99,7 @@ code: |
   bbo_number
   set_progress(42)
   set_progress(56)
+  users[0].signature
   signature_date
   interview_order_matcr10ma = True
 ---
