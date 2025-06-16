@@ -184,10 +184,10 @@ question: |
 fields:
   - "How much rent has been paid since this case has been filed?": rent_paid
     maxlength: 11
-  - "When is the unpaid rent up to?": unpaid_rent_through
-    datatype: date
   - "How much unpaid": unpaid_rent
     maxlength: 9
+  - "When is the unpaid rent up to?": unpaid_rent_through
+    datatype: date
 ---
 id: Occupied or vacated
 question: |
@@ -195,10 +195,10 @@ question: |
 fields:
   - "Is the premise occupy": premise_occupy
     datatype: yesno
-  - "Date of vactated": vactated_date
-    datatype: date
   - "Parties vacated": parties_vacated
     datatype: yesno
+  - "Date of vactated": vactated_date
+    datatype: date
 ---
 id: bbo number
 question: |
