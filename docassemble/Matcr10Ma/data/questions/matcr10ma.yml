@@ -98,7 +98,6 @@ code: |
   premise_occupy
   bbo_number
   set_progress(42)
-  month1
   set_progress(56)
   signature_date
   interview_order_matcr10ma = True
@@ -215,29 +214,6 @@ question: |
   bbo number
 fields:
   - "Bbo number": bbo_number
-    maxlength: 16
-    required: False
----
-id: what months and how much
-question: |
-  what months and how much
-fields:
-  - "Month1": month1
-    maxlength: 16
-    required: False
-  - "Month1 unpaid": month1_unpaid
-    maxlength: 16
-    required: False
-  - "Month2": month2
-    maxlength: 16
-    required: False
-  - "Month2 unpaid": month2_unpaid
-    maxlength: 16
-    required: False
-  - "Month3": month3
-    maxlength: 16
-    required: False
-  - "Month3 unpaid": month3_unpaid
     maxlength: 16
     required: False
 ---
@@ -362,30 +338,6 @@ review:
     button: |
       **Date of signature**:
       ${ signature_date }
-  - Edit: month1
-    button: |
-      **Month1**:
-      ${ month1 }
-  - Edit: month1_unpaid
-    button: |
-      **Month1 unpaid**:
-      ${ month1_unpaid }
-  - Edit: month2
-    button: |
-      **Month2**:
-      ${ month2 }
-  - Edit: month2_unpaid
-    button: |
-      **Month2 unpaid**:
-      ${ month2_unpaid }
-  - Edit: month3
-    button: |
-      **Month3**:
-      ${ month3 }
-  - Edit: month3_unpaid
-    button: |
-      **Month3 unpaid**:
-      ${ month3_unpaid }
 ---
 continue button field: users.revisit
 question: |
@@ -504,12 +456,6 @@ attachment:
       - "users1_full_name__2": ${ users1_full_name }
       - "signature_date": ${ signature_date }
       - "users1_signature": ${ users[0].signature }
-      - "month1": ${ month1 }
-      - "month1_unpaid": ${ month1_unpaid }
-      - "month2": ${ month2 }
-      - "month2_unpaid": ${ month2_unpaid }
-      - "month3": ${ month3 }
-      - "month3_unpaid": ${ month3_unpaid }
 
 
 
