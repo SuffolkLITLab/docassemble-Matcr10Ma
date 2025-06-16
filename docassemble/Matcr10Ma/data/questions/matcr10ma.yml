@@ -157,18 +157,8 @@ question: |
 fields:
   - "Parties not in service?": not_service
     datatype: yesno
----
-id: In military service
-question: |
-  In military service?
-fields:
   - "Parties in service?": in_service
     datatype: yesno
----
-id: unable to determine
-question: |
-  unable to determine?
-fields:
   - "Unable to determine parties service": unable_service
     datatype: yesno
 ---
