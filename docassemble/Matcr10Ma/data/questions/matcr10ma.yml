@@ -1,0 +1,521 @@
+---
+include:
+  - docassemble.AssemblyLine:assembly_line.yml
+---
+metadata:
+  title: >-
+    Matcr10ma
+  short title: >-
+    Matcr10ma
+  description: |-
+    This interview helps someone in Massachusetts file a Matcr10ma.
+  can_I_use_this_form: |
+    If you are a _____________, you can use this interview to ____________.
+  before_you_start: |
+    This interview will help you file a Matcr10ma.
+    
+    Before you get started, please gather:
+    
+    1. 
+    1. 
+    1. 
+    
+    When you are finished, you will need to:
+    
+    1. 
+    1.
+  maturity: production
+  estimated_completion_minutes: 10
+  estimated_completion_delta: 5
+  tags: []
+  authors:
+    - lit lab
+  original_form: []
+  original_form_published_on: ""
+  allowed_courts: 
+    - "Housing Court"
+  typical_role: "plaintiff"
+  al_weaver_version: "1.11.0"
+  generated_on: "2025-06-12"
+  languages:
+    - en
+  jurisdiction: NAM-US-US+MA
+  review_date: 2025-06-12
+  form_titles:
+    - Matcr10ma
+  form_numbers: []
+  update_notes: |
+---
+code: |
+  # This controls the default country and list of states in address field questions
+  AL_DEFAULT_COUNTRY = "US"
+---
+code: |
+  # This controls the default state in address field questions
+  AL_DEFAULT_STATE = "MA"
+---
+code: |
+  github_repo_name =  'docassemble-Matcr10Ma'
+---
+code: |
+  interview_short_title = "File a Matcr10ma"
+---
+code: |
+  al_form_type = "existing_case" 
+---
+objects:
+  - other_parties: ALPeopleList.using(there_are_any=True)
+  - users1_full: ALPeopleList.using(ask_number=True,target_number=1)
+  - users: ALPeopleList.using(ask_number=True,target_number=1)
+---
+sections:
+  - review_matcr10ma: Review your answers
+---
+#################### Interview order #####################
+comment: |
+  Controls order and branching logic for questions specific to this form
+id: interview_order_matcr10ma
+code: |
+  # Set the allowed courts for this interview
+  allowed_courts = ['Housing Court']
+  nav.set_section("review_matcr10ma")
+  user_role = "plaintiff"
+  user_ask_role = "plaintiff"
+  users.gather()
+  set_parts(subtitle=str(users))
+  housing_court_division
+  not_service
+  set_progress(14)
+  in_service
+  unable_service
+  uniform_seen
+  set_progress(28)
+  rent_paid
+  premise_occupy
+  bbo_number
+  set_progress(42)
+  month1
+  users1_full_name
+  docket_number
+  set_progress(56)
+  other_parties.gather()
+  signature_date
+  interview_order_matcr10ma = True
+---
+###################### Main order ######################
+comment: |
+  This block includes the logic for standalone interviews.
+  Delete mandatory: True to include in another interview
+mandatory: True
+code: |
+  al_intro_screen
+  matcr10ma_intro
+  interview_order_matcr10ma
+  signature_date
+  # Store anonymous data for analytics / statistics
+  store_variables_snapshot(
+      persistent=True,
+      data={
+          "zip": showifdef("users[0].address.zip"),
+          "reached_interview_end": True,
+      },
+  )
+  matcr10ma_download
+---
+id: Matcr10ma
+continue button field: matcr10ma_intro
+question: |
+  Matcr10ma
+subquestion: |
+  This interview will help you file a Matcr10ma.
+  
+  Before you get started, please gather:
+  
+  1. 
+  1. 
+  1. 
+  
+  When you are finished, you will need to:
+  
+  1. 
+  1.
+
+  If you are a _____________, you can use this interview to ____________.
+
+  Most people take about 10 minutes to complete this interview.
+---
+id: Housing Court division
+question: |
+  Housing Court division?
+fields:
+  - "Housing court division?": housing_court_division
+    maxlength: 78
+---
+id: The above named parties are not currently in military service
+question: |
+  The above named parties are not currently in military service
+fields:
+  - "Parties not in service?": not_service
+    datatype: yesno
+---
+id: In military service
+question: |
+  In military service?
+fields:
+  - "Parties in service?": in_service
+    datatype: yesno
+---
+id: unable to determine
+question: |
+  unable to determine?
+fields:
+  - "Unable to determine parties service": unable_service
+    datatype: yesno
+---
+id: Facts supporting this affidavit
+question: |
+  Facts supporting this affidavit
+fields:
+  - "Have you never seen the defendants in military uniforms": uniform_seen
+    datatype: yesno
+  - "The defendant works in civilian employment": civillian_seen
+    datatype: yesno
+  - "Defendant acknowledges their status or lack of status": defendant_acknowledge
+    datatype: yesno
+  - "what other facts support this affidavit?": other_facts_text
+    maxlength: 16
+  - "will you use other facts to support this affidavit?": other_facts
+    datatype: yesno
+---
+id: Rent questions
+question: |
+  Rent questions
+fields:
+  - "How much rent has been paid since this case has been filed?": rent_paid
+    maxlength: 11
+  - "When is the unpaid rent up to?": unpaid_rent_through
+    datatype: date
+  - "How much unpaid": unpaid_rent
+    maxlength: 9
+---
+id: Occupied or vacated
+question: |
+  Occupied or vacated
+fields:
+  - "Is the premise occupy": premise_occupy
+    datatype: yesno
+  - "Date of vactated": vactated_date
+    datatype: date
+  - "Parties vacated": parties_vacated
+    datatype: yesno
+---
+id: bbo number
+question: |
+  bbo number
+fields:
+  - "Bbo number": bbo_number
+    maxlength: 16
+    required: False
+---
+id: what months and how much
+question: |
+  what months and how much
+fields:
+  - "Month1": month1
+    maxlength: 16
+    required: False
+  - "Month1 unpaid": month1_unpaid
+    maxlength: 16
+    required: False
+  - "Month2": month2
+    maxlength: 16
+    required: False
+  - "Month2 unpaid": month2_unpaid
+    maxlength: 16
+    required: False
+  - "Month3": month3
+    maxlength: 16
+    required: False
+  - "Month3 unpaid": month3_unpaid
+    maxlength: 16
+    required: False
+---
+id: what is your full name
+question: |
+  what is your full name?
+fields:
+  - "Users1 full name": users1_full_name
+    maxlength: 16
+---
+id: preview matcr10ma
+question: |
+  Preview your form before you sign it
+subquestion: |
+  Here is a preview of the form you will sign on the next page.   
+  
+  ${ al_court_bundle.as_pdf(key='preview') }
+
+  Click the image to open it in a new tab. Click the "Edit answers" button
+  to edit your answers.
+
+  ${ action_button_html(url_action('review_matcr10ma'), label='Edit answers', color='info') }
+  
+  Remember to come back to this window to continue and sign your form.
+continue button field: matcr10ma_preview_question    
+---
+code: |
+  signature_fields = ['users[0].signature']
+---
+code: |
+  # This is a placeholder for the addresses that will be searched
+  # for matching address to court. Edit if court venue is based on 
+  # a different address than the user's
+  [user.address.address for user in users.complete_elements()]
+  addresses_to_search = [user.address for user in users.complete_elements()]
+---
+id: matcr10ma review screen
+event: review_matcr10ma
+question: |
+  Review your answers
+review:
+  - Edit: docket_number
+    button: |
+      **Docket number**:
+      ${ docket_number }
+  - Edit: housing_court_division
+    button: |
+      **Housing court division?**:
+      ${ housing_court_division }
+  - Edit: users.revisit
+    button: |
+      **Users**
+
+      % for item in users:
+        * ${ item }
+      % endfor
+  - Edit: other_parties.revisit
+    button: |
+      **Other parties**
+
+      % for item in other_parties:
+        * ${ item }
+      % endfor
+  - Edit: not_service
+    button: |
+      **Parties not in service?**:
+      ${ word(yesno(not_service)) }
+  - Edit: in_service
+    button: |
+      **Parties in service?**:
+      ${ word(yesno(in_service)) }
+  - Edit: unable_service
+    button: |
+      **Unable to determine parties service**:
+      ${ word(yesno(unable_service)) }
+  - Edit: uniform_seen
+    button: |
+      **Have you never seen the defendants in military uniforms**:
+      ${ word(yesno(uniform_seen)) }
+  - Edit: civillian_seen
+    button: |
+      **The defendant works in civilian employment**:
+      ${ word(yesno(civillian_seen)) }
+  - Edit: defendant_acknowledge
+    button: |
+      **Defendant acknowledges their status or lack of status**:
+      ${ word(yesno(defendant_acknowledge)) }
+  - Edit: other_facts_text
+    button: |
+      **what other facts support this affidavit?**:
+      ${ other_facts_text }
+  - Edit: other_facts
+    button: |
+      **will you use other facts to support this affidavit?**:
+      ${ word(yesno(other_facts)) }
+  - Edit: rent_paid
+    button: |
+      **How much rent has been paid since this case has been filed?**:
+      ${ rent_paid }
+  - Edit: unpaid_rent_through
+    button: |
+      **When is the unpaid rent up to?**:
+      ${ unpaid_rent_through }
+  - Edit: unpaid_rent
+    button: |
+      **How much unpaid**:
+      ${ unpaid_rent }
+  - Edit: premise_occupy
+    button: |
+      **Is the premise occupy**:
+      ${ word(yesno(premise_occupy)) }
+  - Edit: vactated_date
+    button: |
+      **Date of vactated**:
+      ${ vactated_date }
+  - Edit: parties_vacated
+    button: |
+      **Parties vacated**:
+      ${ word(yesno(parties_vacated)) }
+  - Edit: bbo_number
+    button: |
+      **Bbo number**:
+      ${ bbo_number }
+  - Edit: users1_full_name
+    button: |
+      **Users1 full name**:
+      ${ users1_full_name }
+  - Edit: signature_date
+    button: |
+      **Date of signature**:
+      ${ signature_date }
+  - Edit: month1
+    button: |
+      **Month1**:
+      ${ month1 }
+  - Edit: month1_unpaid
+    button: |
+      **Month1 unpaid**:
+      ${ month1_unpaid }
+  - Edit: month2
+    button: |
+      **Month2**:
+      ${ month2 }
+  - Edit: month2_unpaid
+    button: |
+      **Month2 unpaid**:
+      ${ month2_unpaid }
+  - Edit: month3
+    button: |
+      **Month3**:
+      ${ month3 }
+  - Edit: month3_unpaid
+    button: |
+      **Month3 unpaid**:
+      ${ month3_unpaid }
+---
+continue button field: users.revisit
+question: |
+  Edit users
+subquestion: |
+  ${ users.table }
+
+  ${ users.add_action() }
+---
+table: users.table
+rows: users
+columns:
+  - Name: |
+      row_item.name.full() if defined("row_item.name.first") else ""
+  - Signature: |
+      row_item.signature if defined("row_item.signature") else ""
+edit:
+  - name.first
+  - signature
+confirm: True
+
+---
+continue button field: other_parties.revisit
+question: |
+  Edit other_parties
+subquestion: |
+  ${ other_parties.table }
+
+  ${ other_parties.add_action() }
+---
+table: other_parties.table
+rows: other_parties
+columns:
+  - Name: |
+      row_item.name.full() if defined("row_item.name.first") else ""
+edit:
+  - name.first
+confirm: True
+
+---
+id: download matcr10ma
+event: matcr10ma_download
+question: |
+  All done
+subquestion: |
+  Thank you ${users}. Your form is ready to download and deliver.
+  
+  View, download and send your form below. Click the "Edit answers" button to fix any mistakes.
+
+  ${ action_button_html(url_action('review_matcr10ma'), label='Edit answers', color='info') }
+  
+  
+  ${ al_user_bundle.download_list_html() }
+  
+
+  ${ al_user_bundle.send_button_html(show_editable_checkbox=False) }
+
+progress: 100
+---
+# ALDocument objects specify the metadata for each template
+objects:
+  - matcr10ma_Post_interview_instructions: ALDocument.using(title="Instructions", filename="matcr10ma_next_steps.docx", enabled=True, has_addendum=False)
+  - matcr10ma_attachment: ALDocument.using(title="Matcr10ma", filename="matcr10ma", enabled=True, has_addendum=False, )
+---
+# Bundles group the ALDocuments into separate downloads, such as for court and for the user
+objects:
+  - al_user_bundle: ALDocumentBundle.using(elements=[matcr10ma_Post_interview_instructions, matcr10ma_attachment], filename="matcr10ma", title="All forms to download for your records", enabled=True)
+  - al_court_bundle: ALDocumentBundle.using(elements=[matcr10ma_attachment],  filename="matcr10ma", title="All forms to deliver to court", enabled=True)
+---
+# Each attachment defines a key in an ALDocument. We use `i` as the placeholder here so the same template is 
+# used for "preview" and "final" keys, and logic in the template checks the value of 
+# `i` to show or hide the user's signature
+attachment:
+  name: Post-interview-Instructions
+  filename: matcr10ma_next_steps
+  docx template file: matcr10ma_next_steps.docx
+  variable name: matcr10ma_Post_interview_instructions[i]
+  skip undefined: True
+  tagged pdf: True
+---
+attachment:
+  name: matcr10ma
+  filename: matcr10ma
+  variable name: matcr10ma_attachment[i]
+  skip undefined: True
+  pdf template file: matcr10ma.pdf
+  fields:
+      - "docket_number__1": ${ docket_number }
+      - "docket_number__2": ${ docket_number }
+      - "housing_court_division__1": ${ housing_court_division }
+      - "housing_court_division__2": ${ housing_court_division }
+      - "users1_name_last": ${ users[0].name.last }
+      - "other_parties": ${ other_parties }
+      - "users1_name_full__1": ${ users[0] }
+      - "not_service": ${ not_service }
+      - "in_service": ${ in_service }
+      - "other_parties3_name_full": ${ other_parties[2] }
+      - "other_parties2_name_full": ${ other_parties[1] }
+      - "other_parties1_name_full": ${ other_parties[0] }
+      - "unable_service": ${ unable_service }
+      - "other_parties5_name_full": ${ other_parties[4] }
+      - "other_parties6_name_full": ${ other_parties[5] }
+      - "other_parties4_name_full": ${ other_parties[3] }
+      - "uniform_seen": ${ uniform_seen }
+      - "civillian_seen": ${ civillian_seen }
+      - "defendant_acknowledge": ${ defendant_acknowledge }
+      - "other_facts_text": ${ other_facts_text }
+      - "other_facts": ${ other_facts }
+      - "rent_paid": ${ rent_paid }
+      - "unpaid_rent_through": ${ unpaid_rent_through.format() }
+      - "unpaid_rent": ${ unpaid_rent }
+      - "premise_occupy": ${ premise_occupy }
+      - "vactated_date": ${ vactated_date.format() }
+      - "parties_vacated": ${ parties_vacated }
+      - "bbo_number": ${ bbo_number }
+      - "users1_full_name__2": ${ users1_full_name }
+      - "signature_date": ${ signature_date }
+      - "users1_signature": ${ users[0].signature }
+      - "month1": ${ month1 }
+      - "month1_unpaid": ${ month1_unpaid }
+      - "month2": ${ month2 }
+      - "month2_unpaid": ${ month2_unpaid }
+      - "month3": ${ month3 }
+      - "month3_unpaid": ${ month3_unpaid }
+
+
+
