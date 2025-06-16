@@ -77,11 +77,15 @@ comment: |
 id: interview_order_matcr10ma
 code: |
   # Set the allowed courts for this interview
+  
+  docket_number
+  
   allowed_courts = ['Housing Court']
   nav.set_section("review_matcr10ma")
   user_role = "plaintiff"
   user_ask_role = "plaintiff"
   users.gather()
+  other_parties.gather()
   set_parts(subtitle=str(users))
   housing_court_division
   not_service
@@ -95,10 +99,7 @@ code: |
   bbo_number
   set_progress(42)
   month1
-  users1_full_name
-  docket_number
   set_progress(56)
-  other_parties.gather()
   signature_date
   interview_order_matcr10ma = True
 ---
@@ -239,13 +240,6 @@ fields:
   - "Month3 unpaid": month3_unpaid
     maxlength: 16
     required: False
----
-id: what is your full name
-question: |
-  what is your full name?
-fields:
-  - "Users1 full name": users1_full_name
-    maxlength: 16
 ---
 id: preview matcr10ma
 question: |
