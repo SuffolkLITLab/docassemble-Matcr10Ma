@@ -183,10 +183,10 @@ fields:
     datatype: yesno
   - "Defendant acknowledges their status or lack of status": defendant_acknowledge
     datatype: yesno
-  - "what other facts support this affidavit?": other_facts_text
-    maxlength: 16
   - "will you use other facts to support this affidavit?": other_facts
     datatype: yesno
+  - "what other facts support this affidavit?": other_facts_text
+    maxlength: 16
 ---
 id: Rent questions
 question: |
