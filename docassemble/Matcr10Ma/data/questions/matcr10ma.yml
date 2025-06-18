@@ -4,15 +4,15 @@ include:
 ---
 metadata:
   title: >-
-    Matcr10ma
+    Matcr10millaff
   short title: >-
-    Matcr10ma
+    Matcr10millaff
   description: |-
-    This interview helps someone in Massachusetts file a Matcr10ma.
+    This interview helps someone in Massachusetts file a military Affidavit for UNDER UNIFORM SUMMARY PROCESS RULE 10(d)(ii).
   can_I_use_this_form: |
     If you are a _____________, you can use this interview to ____________.
   before_you_start: |
-    This interview will help you file a Matcr10ma.
+    This interview will help you file a military Affidavit for UNDER UNIFORM SUMMARY PROCESS RULE 10(d)(ii).
     
     Before you get started, please gather:
     
@@ -27,22 +27,25 @@ metadata:
   maturity: production
   estimated_completion_minutes: 10
   estimated_completion_delta: 5
-  tags: []
+  LIST_topics: 
+    - "CO-00-00-00-00"
+  tags:
+    - "CO-00-00-00-00"
   authors:
-    - lit lab
+    - Lit lab
   original_form: []
   original_form_published_on: ""
   allowed_courts: 
     - "Housing Court"
   typical_role: "plaintiff"
   al_weaver_version: "1.11.0"
-  generated_on: "2025-06-12"
+  generated_on: "2025-06-17"
   languages:
     - en
   jurisdiction: NAM-US-US+MA
-  review_date: 2025-06-12
+  review_date: 2025-06-17
   form_titles:
-    - Matcr10ma
+    - Matcr10millaff
   form_numbers: []
   update_notes: |
 ---
@@ -55,53 +58,57 @@ code: |
   AL_DEFAULT_STATE = "MA"
 ---
 code: |
-  github_repo_name =  'docassemble-Matcr10Ma'
+  github_repo_name =  'docassemble-Matcr10Millaff'
 ---
 code: |
-  interview_short_title = "File a Matcr10ma"
+  interview_short_title = "File a military Affidavit for UNDER UNIFORM SUMMARY PROCESS RULE 10(d)(ii)"
 ---
 code: |
   al_form_type = "existing_case" 
 ---
 objects:
+  - users: ALPeopleList.using(ask_number=True,target_number=1)
   - other_parties: ALPeopleList.using(there_are_any=True)
   - users1_full: ALPeopleList.using(ask_number=True,target_number=1)
-  - users: ALPeopleList.using(ask_number=True,target_number=1)
 ---
 sections:
-  - review_matcr10ma: Review your answers
+  - review_matcr10millaff: Review your answers
 ---
 #################### Interview order #####################
 comment: |
   Controls order and branching logic for questions specific to this form
-id: interview_order_matcr10ma
+id: interview_order_matcr10millaff
 code: |
   # Set the allowed courts for this interview
-  
-  docket_number
-  
   allowed_courts = ['Housing Court']
-  nav.set_section("review_matcr10ma")
+  nav.set_section("review_matcr10millaff")
   user_role = "plaintiff"
   user_ask_role = "plaintiff"
   users.gather()
+  defendants.gather()
   other_parties.gather()
   set_parts(subtitle=str(users))
   housing_court_division
+  docket_number
   not_service
   set_progress(14)
-  in_service
-  unable_service
   uniform_seen
-  set_progress(28)
+  other_facts_text
+  know_rent
+  month1
   rent_paid
+  set_progress(28)
   premise_occupy
+  premise_occupy
+  vacated_date
   bbo_number
+  users1_full_name
   set_progress(42)
+  plaintiffs.gather()
   set_progress(56)
   users[0].signature
   signature_date
-  interview_order_matcr10ma = True
+  interview_order_matcr10millaff = True
 ---
 ###################### Main order ######################
 comment: |
@@ -110,8 +117,8 @@ comment: |
 mandatory: True
 code: |
   al_intro_screen
-  matcr10ma_intro
-  interview_order_matcr10ma
+  matcr10millaff_intro
+  interview_order_matcr10millaff
   signature_date
   # Store anonymous data for analytics / statistics
   store_variables_snapshot(
@@ -121,14 +128,14 @@ code: |
           "reached_interview_end": True,
       },
   )
-  matcr10ma_download
+  matcr10millaff_download
 ---
-id: Matcr10ma
-continue button field: matcr10ma_intro
+id: Matcr10millaff
+continue button field: matcr10millaff_intro
 question: |
-  Matcr10ma
+  Matcr10millaff
 subquestion: |
-  This interview will help you file a Matcr10ma.
+  This interview will help you file a military Affidavit for UNDER UNIFORM SUMMARY PROCESS RULE 10(d)(ii).
   
   Before you get started, please gather:
   
@@ -145,70 +152,250 @@ subquestion: |
 
   Most people take about 10 minutes to complete this interview.
 ---
-id: Housing Court division
+id: What is the housing Court Division
 question: |
-  Housing Court division?
+  What is the housing Court Division?
 fields:
-  - "Housing court division?": housing_court_division
-    maxlength: 78
+  - "Housing court division": housing_court_division
+    maxlength: 80
 ---
-id: The above named parties are not currently in military service
+id: Service status question
 question: |
-  The above named parties are not currently in military service
+  Service status question
 fields:
-  - "Parties not in service?": not_service
+  - "Not service": not_service
     datatype: yesno
-  - "Parties in service?": in_service
+  - "In service": in_service
     datatype: yesno
-  - "Unable to determine parties service": unable_service
+  - "Unable service": unable_service
     datatype: yesno
 ---
-id: Facts supporting this affidavit
+id: Facts supporting knowledge of service status
 question: |
-  Facts supporting this affidavit
+  Facts supporting knowledge of service status
 fields:
-  - "Have you never seen the defendants in military uniforms": uniform_seen
+  - "Uniform seen": uniform_seen
     datatype: yesno
-  - "The defendant works in civilian employment": civillian_seen
+  - "Civillian seen": civillian_seen
     datatype: yesno
-  - "Defendant acknowledges their status or lack of status": defendant_acknowledge
+  - "Defendant acknowledge": defendant_acknowledge
     datatype: yesno
-  - "will you use other facts to support this affidavit?": other_facts
+  - "Other facts": other_facts
     datatype: yesno
-  - "what other facts support this affidavit?": other_facts_text
-    maxlength: 16
 ---
-id: Rent questions
+id: What are the other facts
 question: |
-  Rent questions
+  please explain
 fields:
-  - "How much rent has been paid since this case has been filed?": rent_paid
+  - "Other facts text": other_facts_text
+    maxlength: 120
+---
+id: do you know how much rent has been paid since this case has been filed?
+question: |
+fields: 
+  - "I have the knowledge": know_rent
+    datatype: yesno
+  - "I would like to use the worksheet to calculate rent": worksheet_want
+    datatype: yesno
+---
+id: Is there paid and unpaid rent
+question: |
+  Is there paid and unpaid rent?
+fields:
+  - "Rent paid": rent_paid
+    maxlength: 13
+  - "Unpaid rent through": unpaid_rent_through
+    maxlength: 18
+  - "Unpaid rent": unpaid_rent
     maxlength: 11
-  - "How much unpaid": unpaid_rent
-    maxlength: 9
-  - "When is the unpaid rent up to?": unpaid_rent_through
-    datatype: date
 ---
-id: Occupied or vacated
+id: is the premise occupied
 question: |
-  Occupied or vacated
+  is the premise occupied?
 fields:
-  - "Is the premise occupy": premise_occupy
-    datatype: yesno
+  - "Premise occupy": premise_occupy
+    datatype: yesnoradio
   - "Parties vacated": parties_vacated
-    datatype: yesno
-  - "Date of vactated": vactated_date
+    datatype: yesnoradio
+---
+id: what date was the premise vacated
+question: |
+  when did the tenants leave the place?
+fields:
+  - "Date": vacated_date
     datatype: date
 ---
-id: bbo number
+id: If you are an attorney what is you bbo number
 question: |
-  bbo number
+  If you are an attorney what is you bbo number?
 fields:
   - "Bbo number": bbo_number
-    maxlength: 16
+    maxlength: 43
     required: False
 ---
-id: preview matcr10ma
+id: what is your full name
+question: |
+  what is your full name?
+fields:
+  - "Users1 full name": users1_full_name
+    maxlength: 44
+---
+id: If you need help calculating the rent owed use the worksheet here
+question: |
+  If you need help calculating the rent owed, use the worksheet here
+fields:
+  - "Month1": month1
+    maxlength: 96
+    required: False
+  - "Month1 unpaid": month1_unpaid
+    maxlength: 96
+    required: False
+  - "Month2": month2
+    maxlength: 96
+    required: False
+  - "Month2 unpaid": month2_unpaid
+    maxlength: 96
+    required: False
+  - "Month3 unpaid": month3_unpaid
+    maxlength: 96
+    required: False
+  - "Month3": month3
+    maxlength: 96
+    required: False
+  - "Month4 unpaid": month4_unpaid
+    maxlength: 96
+    required: False
+  - "Month4": month4
+    maxlength: 96
+    required: False
+  - "Month5 unpaid": month5_unpaid
+    maxlength: 96
+    required: False
+  - "Month5": month5
+    maxlength: 96
+    required: False
+  - "Month6 unpaid": month6_unpaid
+    maxlength: 96
+    required: False
+  - "Month6": month6
+    maxlength: 96
+    required: False
+  - "Month7": month7
+    maxlength: 96
+    required: False
+  - "Month7 unpaid": month7_unpaid
+    maxlength: 96
+    required: False
+  - "Month8": month8
+    maxlength: 96
+    required: False
+  - "Month8 unpaid": month8_unpaid
+    maxlength: 96
+    required: False
+  - "Month9": month9
+    maxlength: 96
+    required: False
+  - "Month9 unpaid": month9_unpaid
+    maxlength: 96
+    required: False
+  - "Month10": month10
+    maxlength: 96
+    required: False
+  - "Month10 unpaid": month10_unpaid
+    maxlength: 96
+    required: False
+  - "Month11": month11
+    maxlength: 96
+    required: False
+  - "Month11 unpaid": month11_unpaid
+    maxlength: 96
+    required: False
+  - "Month12 unpaid": month12_unpaid
+    maxlength: 96
+    required: False
+  - "Month12": month12
+    maxlength: 96
+    required: False
+  - "Month13": month13
+    maxlength: 96
+    required: False
+  - "Month13 unpaid": month13_unpaid
+    maxlength: 96
+    required: False
+  - "Month14": month14
+    maxlength: 96
+    required: False
+  - "Month14 unpaid": month14_unpaid
+    maxlength: 96
+    required: False
+  - "Month15 unpaid": month15_unpaid
+    maxlength: 96
+    required: False
+  - "Month15": month15
+    maxlength: 96
+    required: False
+  - "Month16 unpaid": month16_unpaid
+    maxlength: 96
+    required: False
+  - "Month16": month16
+    maxlength: 96
+    required: False
+  - "Month17": month17
+    maxlength: 96
+    required: False
+  - "Month17 unpaid": month17_unpaid
+    maxlength: 96
+    required: False
+  - "Month18": month18
+    maxlength: 96
+    required: False
+  - "Month18 unpaid": month18_unpaid
+    maxlength: 96
+    required: False
+  - "Month19 unpaid": month19_unpaid
+    maxlength: 96
+    required: False
+  - "Month19": month19
+    maxlength: 96
+    required: False
+  - "Month20": month20
+    maxlength: 96
+    required: False
+  - "Month20 unpaid": month20_unpaid
+    maxlength: 96
+    required: False
+  - "Month21": month21
+    maxlength: 96
+    required: False
+  - "Month21 unpaid": month21_unpaid
+    maxlength: 96
+    required: False
+  - "Month22": month22
+    maxlength: 96
+    required: False
+  - "Month22 unpaid": month22_unpaid
+    maxlength: 96
+    required: False
+  - "Month23": month23
+    maxlength: 96
+    required: False
+  - "Month23 unpaid": month23_unpaid
+    maxlength: 96
+    required: False
+  - "Month24": month24
+    maxlength: 96
+    required: False
+  - "Month24 unpaid": month24_unpaid
+    maxlength: 96
+    required: False
+  - "Months total": months_total
+    maxlength: 96
+    required: False
+  - "Months unpaid total": months_unpaid_total
+    maxlength: 96
+    required: False
+---
+id: preview matcr10millaff
 question: |
   Preview your form before you sign it
 subquestion: |
@@ -219,10 +406,10 @@ subquestion: |
   Click the image to open it in a new tab. Click the "Edit answers" button
   to edit your answers.
 
-  ${ action_button_html(url_action('review_matcr10ma'), label='Edit answers', color='info') }
+  ${ action_button_html(url_action('review_matcr10millaff'), label='Edit answers', color='info') }
   
   Remember to come back to this window to continue and sign your form.
-continue button field: matcr10ma_preview_question    
+continue button field: matcr10millaff_preview_question    
 ---
 code: |
   signature_fields = ['users[0].signature']
@@ -234,8 +421,8 @@ code: |
   [user.address.address for user in users.complete_elements()]
   addresses_to_search = [user.address for user in users.complete_elements()]
 ---
-id: matcr10ma review screen
-event: review_matcr10ma
+id: matcr10millaff review screen
+event: review_matcr10millaff
 question: |
   Review your answers
 review:
@@ -245,8 +432,22 @@ review:
       ${ docket_number }
   - Edit: housing_court_division
     button: |
-      **Housing court division?**:
+      **Housing court division**:
       ${ housing_court_division }
+  - Edit: plaintiffs.revisit
+    button: |
+      **Plaintiffs**
+
+      % for item in plaintiffs:
+        * ${ item }
+      % endfor
+  - Edit: defendants.revisit
+    button: |
+      **Defendants**
+
+      % for item in defendants:
+        * ${ item }
+      % endfor
   - Edit: users.revisit
     button: |
       **Users**
@@ -254,6 +455,14 @@ review:
       % for item in users:
         * ${ item }
       % endfor
+  - Edit: not_service
+    button: |
+      **Not service**:
+      ${ word(yesno(not_service)) }
+  - Edit: in_service
+    button: |
+      **In service**:
+      ${ word(yesno(in_service)) }
   - Edit: other_parties.revisit
     button: |
       **Other parties**
@@ -261,58 +470,50 @@ review:
       % for item in other_parties:
         * ${ item }
       % endfor
-  - Edit: not_service
-    button: |
-      **Parties not in service?**:
-      ${ word(yesno(not_service)) }
-  - Edit: in_service
-    button: |
-      **Parties in service?**:
-      ${ word(yesno(in_service)) }
   - Edit: unable_service
     button: |
-      **Unable to determine parties service**:
+      **Unable service**:
       ${ word(yesno(unable_service)) }
   - Edit: uniform_seen
     button: |
-      **Have you never seen the defendants in military uniforms**:
+      **Uniform seen**:
       ${ word(yesno(uniform_seen)) }
   - Edit: civillian_seen
     button: |
-      **The defendant works in civilian employment**:
+      **Civillian seen**:
       ${ word(yesno(civillian_seen)) }
   - Edit: defendant_acknowledge
     button: |
-      **Defendant acknowledges their status or lack of status**:
+      **Defendant acknowledge**:
       ${ word(yesno(defendant_acknowledge)) }
   - Edit: other_facts_text
     button: |
-      **what other facts support this affidavit?**:
+      **Other facts text**:
       ${ other_facts_text }
   - Edit: other_facts
     button: |
-      **will you use other facts to support this affidavit?**:
+      **Other facts**:
       ${ word(yesno(other_facts)) }
   - Edit: rent_paid
     button: |
-      **How much rent has been paid since this case has been filed?**:
+      **Rent paid**:
       ${ rent_paid }
   - Edit: unpaid_rent_through
     button: |
-      **When is the unpaid rent up to?**:
+      **Unpaid rent through**:
       ${ unpaid_rent_through }
   - Edit: unpaid_rent
     button: |
-      **How much unpaid**:
+      **Unpaid rent**:
       ${ unpaid_rent }
   - Edit: premise_occupy
     button: |
-      **Is the premise occupy**:
+      **Premise occupy**:
       ${ word(yesno(premise_occupy)) }
-  - Edit: vactated_date
+  - Edit: vacated_date
     button: |
-      **Date of vactated**:
-      ${ vactated_date }
+      **Date of vacated**:
+      ${ vacated_date }
   - Edit: parties_vacated
     button: |
       **Parties vacated**:
@@ -329,6 +530,242 @@ review:
     button: |
       **Date of signature**:
       ${ signature_date }
+  - Edit: month1
+    button: |
+      **Month1**:
+      ${ month1 }
+  - Edit: month1_unpaid
+    button: |
+      **Month1 unpaid**:
+      ${ month1_unpaid }
+  - Edit: month2
+    button: |
+      **Month2**:
+      ${ month2 }
+  - Edit: month2_unpaid
+    button: |
+      **Month2 unpaid**:
+      ${ month2_unpaid }
+  - Edit: month3_unpaid
+    button: |
+      **Month3 unpaid**:
+      ${ month3_unpaid }
+  - Edit: month3
+    button: |
+      **Month3**:
+      ${ month3 }
+  - Edit: month4_unpaid
+    button: |
+      **Month4 unpaid**:
+      ${ month4_unpaid }
+  - Edit: month4
+    button: |
+      **Month4**:
+      ${ month4 }
+  - Edit: month5_unpaid
+    button: |
+      **Month5 unpaid**:
+      ${ month5_unpaid }
+  - Edit: month5
+    button: |
+      **Month5**:
+      ${ month5 }
+  - Edit: month6_unpaid
+    button: |
+      **Month6 unpaid**:
+      ${ month6_unpaid }
+  - Edit: month6
+    button: |
+      **Month6**:
+      ${ month6 }
+  - Edit: month7
+    button: |
+      **Month7**:
+      ${ month7 }
+  - Edit: month7_unpaid
+    button: |
+      **Month7 unpaid**:
+      ${ month7_unpaid }
+  - Edit: month8
+    button: |
+      **Month8**:
+      ${ month8 }
+  - Edit: month8_unpaid
+    button: |
+      **Month8 unpaid**:
+      ${ month8_unpaid }
+  - Edit: month9
+    button: |
+      **Month9**:
+      ${ month9 }
+  - Edit: month9_unpaid
+    button: |
+      **Month9 unpaid**:
+      ${ month9_unpaid }
+  - Edit: month10
+    button: |
+      **Month10**:
+      ${ month10 }
+  - Edit: month10_unpaid
+    button: |
+      **Month10 unpaid**:
+      ${ month10_unpaid }
+  - Edit: month11
+    button: |
+      **Month11**:
+      ${ month11 }
+  - Edit: month11_unpaid
+    button: |
+      **Month11 unpaid**:
+      ${ month11_unpaid }
+  - Edit: month12_unpaid
+    button: |
+      **Month12 unpaid**:
+      ${ month12_unpaid }
+  - Edit: month12
+    button: |
+      **Month12**:
+      ${ month12 }
+  - Edit: month13
+    button: |
+      **Month13**:
+      ${ month13 }
+  - Edit: month13_unpaid
+    button: |
+      **Month13 unpaid**:
+      ${ month13_unpaid }
+  - Edit: month14
+    button: |
+      **Month14**:
+      ${ month14 }
+  - Edit: month14_unpaid
+    button: |
+      **Month14 unpaid**:
+      ${ month14_unpaid }
+  - Edit: month15_unpaid
+    button: |
+      **Month15 unpaid**:
+      ${ month15_unpaid }
+  - Edit: month15
+    button: |
+      **Month15**:
+      ${ month15 }
+  - Edit: month16_unpaid
+    button: |
+      **Month16 unpaid**:
+      ${ month16_unpaid }
+  - Edit: month16
+    button: |
+      **Month16**:
+      ${ month16 }
+  - Edit: month17
+    button: |
+      **Month17**:
+      ${ month17 }
+  - Edit: month17_unpaid
+    button: |
+      **Month17 unpaid**:
+      ${ month17_unpaid }
+  - Edit: month18
+    button: |
+      **Month18**:
+      ${ month18 }
+  - Edit: month18_unpaid
+    button: |
+      **Month18 unpaid**:
+      ${ month18_unpaid }
+  - Edit: month19_unpaid
+    button: |
+      **Month19 unpaid**:
+      ${ month19_unpaid }
+  - Edit: month19
+    button: |
+      **Month19**:
+      ${ month19 }
+  - Edit: month20
+    button: |
+      **Month20**:
+      ${ month20 }
+  - Edit: month20_unpaid
+    button: |
+      **Month20 unpaid**:
+      ${ month20_unpaid }
+  - Edit: month21
+    button: |
+      **Month21**:
+      ${ month21 }
+  - Edit: month21_unpaid
+    button: |
+      **Month21 unpaid**:
+      ${ month21_unpaid }
+  - Edit: month22
+    button: |
+      **Month22**:
+      ${ month22 }
+  - Edit: month22_unpaid
+    button: |
+      **Month22 unpaid**:
+      ${ month22_unpaid }
+  - Edit: month23
+    button: |
+      **Month23**:
+      ${ month23 }
+  - Edit: month23_unpaid
+    button: |
+      **Month23 unpaid**:
+      ${ month23_unpaid }
+  - Edit: month24
+    button: |
+      **Month24**:
+      ${ month24 }
+  - Edit: month24_unpaid
+    button: |
+      **Month24 unpaid**:
+      ${ month24_unpaid }
+  - Edit: months_total
+    button: |
+      **Months total**:
+      ${ months_total }
+  - Edit: months_unpaid_total
+    button: |
+      **Months unpaid total**:
+      ${ months_unpaid_total }
+---
+continue button field: plaintiffs.revisit
+question: |
+  Edit plaintiffs
+subquestion: |
+  ${ plaintiffs.table }
+
+  ${ plaintiffs.add_action() }
+---
+table: plaintiffs.table
+rows: plaintiffs
+columns:
+  - Name: |
+      row_item.name.full() if defined("row_item.name.first") else ""
+edit:
+  - name.first
+confirm: True
+
+---
+continue button field: defendants.revisit
+question: |
+  Edit defendants
+subquestion: |
+  ${ defendants.table }
+
+  ${ defendants.add_action() }
+---
+table: defendants.table
+rows: defendants
+columns:
+  - Name: |
+      row_item.name.full() if defined("row_item.name.first") else ""
+edit:
+  - name.first
+confirm: True
+
 ---
 continue button field: users.revisit
 question: |
@@ -369,8 +806,8 @@ edit:
 confirm: True
 
 ---
-id: download matcr10ma
-event: matcr10ma_download
+id: download matcr10millaff
+event: matcr10millaff_download
 question: |
   All done
 subquestion: |
@@ -378,7 +815,7 @@ subquestion: |
   
   View, download and send your form below. Click the "Edit answers" button to fix any mistakes.
 
-  ${ action_button_html(url_action('review_matcr10ma'), label='Edit answers', color='info') }
+  ${ action_button_html(url_action('review_matcr10millaff'), label='Edit answers', color='info') }
   
   
   ${ al_user_bundle.download_list_html() }
@@ -390,63 +827,116 @@ progress: 100
 ---
 # ALDocument objects specify the metadata for each template
 objects:
-  - matcr10ma_Post_interview_instructions: ALDocument.using(title="Instructions", filename="matcr10ma_next_steps.docx", enabled=True, has_addendum=False)
-  - matcr10ma_attachment: ALDocument.using(title="Matcr10ma", filename="matcr10ma", enabled=True, has_addendum=False, )
+  - matcr10millaff_Post_interview_instructions: ALDocument.using(title="Instructions", filename="matcr10millaff_next_steps.docx", enabled=True, has_addendum=False)
+  - matcr10millaff_attachment: ALDocument.using(title="Matcr10millaff", filename="matcr10millaff", enabled=True, has_addendum=False, )
 ---
 # Bundles group the ALDocuments into separate downloads, such as for court and for the user
 objects:
-  - al_user_bundle: ALDocumentBundle.using(elements=[matcr10ma_Post_interview_instructions, matcr10ma_attachment], filename="matcr10ma", title="All forms to download for your records", enabled=True)
-  - al_court_bundle: ALDocumentBundle.using(elements=[matcr10ma_attachment],  filename="matcr10ma", title="All forms to deliver to court", enabled=True)
+  - al_user_bundle: ALDocumentBundle.using(elements=[matcr10millaff_Post_interview_instructions, matcr10millaff_attachment], filename="matcr10millaff", title="All forms to download for your records", enabled=True)
+  - al_court_bundle: ALDocumentBundle.using(elements=[matcr10millaff_attachment],  filename="matcr10millaff", title="All forms to deliver to court", enabled=True)
 ---
 # Each attachment defines a key in an ALDocument. We use `i` as the placeholder here so the same template is 
 # used for "preview" and "final" keys, and logic in the template checks the value of 
 # `i` to show or hide the user's signature
 attachment:
   name: Post-interview-Instructions
-  filename: matcr10ma_next_steps
-  docx template file: matcr10ma_next_steps.docx
-  variable name: matcr10ma_Post_interview_instructions[i]
+  filename: matcr10millaff_next_steps
+  docx template file: matcr10millaff_next_steps.docx
+  variable name: matcr10millaff_Post_interview_instructions[i]
   skip undefined: True
   tagged pdf: True
 ---
 attachment:
-  name: matcr10ma
-  filename: matcr10ma
-  variable name: matcr10ma_attachment[i]
+  name: matcr10millaff
+  filename: matcr10millaff
+  variable name: matcr10millaff_attachment[i]
   skip undefined: True
-  pdf template file: matcr10ma.pdf
+  pdf template file: matcr10millaff.pdf
   fields:
       - "docket_number__1": ${ docket_number }
       - "docket_number__2": ${ docket_number }
       - "housing_court_division__1": ${ housing_court_division }
       - "housing_court_division__2": ${ housing_court_division }
-      - "users1_name_last": ${ users[0].name.last }
-      - "other_parties": ${ other_parties }
+      - "plaintiffs": ${ plaintiffs }
+      - "defendants": ${ defendants }
       - "users1_name_full__1": ${ users[0] }
       - "not_service": ${ not_service }
       - "in_service": ${ in_service }
-      - "other_parties3_name_full": ${ other_parties[2] }
-      - "other_parties2_name_full": ${ other_parties[1] }
       - "other_parties1_name_full": ${ other_parties[0] }
+      - "other_parties2_name_full": ${ other_parties[1] }
+      - "other_parties3_name_full": ${ other_parties[2] }
       - "unable_service": ${ unable_service }
-      - "other_parties5_name_full": ${ other_parties[4] }
       - "other_parties6_name_full": ${ other_parties[5] }
       - "other_parties4_name_full": ${ other_parties[3] }
+      - "other_parties5_name_full": ${ other_parties[4] }
       - "uniform_seen": ${ uniform_seen }
       - "civillian_seen": ${ civillian_seen }
       - "defendant_acknowledge": ${ defendant_acknowledge }
       - "other_facts_text": ${ other_facts_text }
       - "other_facts": ${ other_facts }
       - "rent_paid": ${ rent_paid }
-      - "unpaid_rent_through": ${ unpaid_rent_through.format() }
+      - "unpaid_rent_through": ${ unpaid_rent_through }
       - "unpaid_rent": ${ unpaid_rent }
       - "premise_occupy": ${ premise_occupy }
-      - "vactated_date": ${ vactated_date.format() }
+      - "vacated_date": ${ vacated_date.format() }
       - "parties_vacated": ${ parties_vacated }
+      - "other_parties7_name_full": ${ other_parties[6] }
+      - "other_parties8_name_full": ${ other_parties[7] }
+      - "other_parties9_name_full": ${ other_parties[8] }
       - "bbo_number": ${ bbo_number }
       - "users1_full_name__2": ${ users1_full_name }
+      - "users1_signature": ${ users[0].signature_if_final(i) }
       - "signature_date": ${ signature_date }
-      - "users1_signature": ${ users[0].signature }
+      - "month1": ${ month1 }
+      - "month1_unpaid": ${ month1_unpaid }
+      - "month2": ${ month2 }
+      - "month2_unpaid": ${ month2_unpaid }
+      - "month3_unpaid": ${ month3_unpaid }
+      - "month3": ${ month3 }
+      - "month4_unpaid": ${ month4_unpaid }
+      - "month4": ${ month4 }
+      - "month5_unpaid": ${ month5_unpaid }
+      - "month5": ${ month5 }
+      - "month6_unpaid": ${ month6_unpaid }
+      - "month6": ${ month6 }
+      - "month7": ${ month7 }
+      - "month7_unpaid": ${ month7_unpaid }
+      - "month8": ${ month8 }
+      - "month8_unpaid": ${ month8_unpaid }
+      - "month9": ${ month9 }
+      - "month9_unpaid": ${ month9_unpaid }
+      - "month10": ${ month10 }
+      - "month10_unpaid": ${ month10_unpaid }
+      - "month11": ${ month11 }
+      - "month11_unpaid": ${ month11_unpaid }
+      - "month12_unpaid": ${ month12_unpaid }
+      - "month12": ${ month12 }
+      - "month13": ${ month13 }
+      - "month13_unpaid": ${ month13_unpaid }
+      - "month14": ${ month14 }
+      - "month14_unpaid": ${ month14_unpaid }
+      - "month15_unpaid": ${ month15_unpaid }
+      - "month15": ${ month15 }
+      - "month16_unpaid": ${ month16_unpaid }
+      - "month16": ${ month16 }
+      - "month17": ${ month17 }
+      - "month17_unpaid": ${ month17_unpaid }
+      - "month18": ${ month18 }
+      - "month18_unpaid": ${ month18_unpaid }
+      - "month19_unpaid": ${ month19_unpaid }
+      - "month19": ${ month19 }
+      - "month20": ${ month20 }
+      - "month20_unpaid": ${ month20_unpaid }
+      - "month21": ${ month21 }
+      - "month21_unpaid": ${ month21_unpaid }
+      - "month22": ${ month22 }
+      - "month22_unpaid": ${ month22_unpaid }
+      - "month23": ${ month23 }
+      - "month23_unpaid": ${ month23_unpaid }
+      - "month24": ${ month24 }
+      - "month24_unpaid": ${ month24_unpaid }
+      - "months_total": ${ months_total }
+      - "months_unpaid_total": ${ months_unpaid_total }
 
 
 
