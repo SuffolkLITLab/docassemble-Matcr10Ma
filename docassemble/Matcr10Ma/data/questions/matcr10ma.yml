@@ -93,8 +93,9 @@ code: |
   not_service
   set_progress(14)
   uniform_seen
-  know_rent
-  month1
+  worksheet_want
+  if worksheet_want == True: 
+    month1
   rent_paid
   set_progress(28)
   premise_occupy
@@ -185,14 +186,7 @@ fields:
     maxlength: 120
     show if: other_facts
       
----
-id: do you know how much rent has been paid since this case has been filed?
-question: |
-fields: 
-  - "I have the knowledge": know_rent
-    datatype: yesno
-  - "I would like to use the worksheet to calculate rent": worksheet_want
-    datatype: yesno
+  
 ---
 id: Is there paid and unpaid rent
 question: |
@@ -235,6 +229,17 @@ question: |
 fields:
   - "Users1 full name": users1_full_name
     maxlength: 44
+---
+id: This interview could help you calculate rent required
+question: |
+  Do you know how much rent has been paid since this case was filed?
+  If not, we can help you calculate it.
+fields:
+  - "Choose one:": worksheet_want
+    input type: radio
+    choices:
+      - I do not know and would like to use the worksheet: True
+      - I know how much rent has been paid: False
 ---
 id: If you need help calculating the rent owed use the worksheet here
 question: |
@@ -390,6 +395,7 @@ fields:
   - "Months unpaid total": months_unpaid_total
     maxlength: 96
     required: False
+show if: worksheet_want == True
 ---
 id: preview matcr10millaff
 question: |
@@ -871,10 +877,10 @@ attachment:
       - "other_facts_text": ${ other_facts_text }
       - "other_facts": ${ other_facts }
       - "rent_paid": ${ rent_paid }
-      - "unpaid_rent_through": ${ unpaid_rent_through }
+      - "unpaid_rent_through": ${ unpaid_rent_through.format("MM/dd/yyyy") }
       - "unpaid_rent": ${ unpaid_rent }
       - "premise_occupy": ${ premise_occupy }
-      - "vacated_date": ${ vacated_date.format() }
+      - "vacated_date": ${ vacated_date.format("MM/dd/yyyy") }
       - "parties_vacated": ${ parties_vacated }
       - "other_parties7_name_full": ${ other_parties[6] }
       - "other_parties8_name_full": ${ other_parties[7] }
@@ -882,7 +888,7 @@ attachment:
       - "bbo_number": ${ bbo_number }
       - "users1_full_name__2": ${ users1_full_name }
       - "users1_signature": ${ users[0].signature_if_final(i) }
-      - "signature_date": ${ signature_date }
+      - "signature_date": ${ signature_date.format("MM/dd/yyyy") }
       - "month1": ${ month1 }
       - "month1_unpaid": ${ month1_unpaid }
       - "month2": ${ month2 }
