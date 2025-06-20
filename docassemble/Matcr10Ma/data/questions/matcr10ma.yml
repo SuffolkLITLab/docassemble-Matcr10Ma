@@ -93,7 +93,6 @@ code: |
   not_service
   set_progress(14)
   uniform_seen
-  other_facts_text
   know_rent
   month1
   rent_paid
@@ -182,13 +181,10 @@ fields:
     datatype: yesno
   - "Other facts": other_facts
     datatype: yesno
----
-id: What are the other facts
-question: |
-  please explain
-fields:
   - "Other facts text": other_facts_text
     maxlength: 120
+    show if: other_facts
+      
 ---
 id: do you know how much rent has been paid since this case has been filed?
 question: |
@@ -203,11 +199,11 @@ question: |
   Is there paid and unpaid rent?
 fields:
   - "Rent paid": rent_paid
-    maxlength: 13
+    datatype: number
   - "Unpaid rent through": unpaid_rent_through
-    maxlength: 18
+    datatype: date
   - "Unpaid rent": unpaid_rent
-    maxlength: 11
+    datatype: number
 ---
 id: is the premise occupied
 question: |
