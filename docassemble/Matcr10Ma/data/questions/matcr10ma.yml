@@ -169,6 +169,9 @@ fields:
     datatype: yesno
   - "Unable service": unable_service
     datatype: yesno
+validation code: |
+  if not (not_service or in_service or unable_service):
+    validation_error("You must select at least one service status.")
 ---
 id: Facts supporting knowledge of service status
 question: |
@@ -185,6 +188,9 @@ fields:
   - "Other facts text": other_facts_text
     maxlength: 120
     show if: other_facts
+validation code: |
+  if not (uniform_seen or civillian_seen or defendant_acknowledge or other_facts):
+    validation_error("You must select at least one fact supporting.")
       
   
 ---
