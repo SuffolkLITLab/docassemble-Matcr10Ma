@@ -99,8 +99,8 @@ code: |
   rent_paid
   set_progress(28)
   premise_occupy
-  premise_occupy
-  vacated_date
+  if premise_occupy == False:
+    vacated_date
   bbo_number
   users1_full_name
   set_progress(42)
@@ -207,12 +207,18 @@ fields:
 ---
 id: is the premise occupied
 question: |
-  is the premise occupied?
+  What is the current status of the premises?
 fields:
-  - "Premise occupy": premise_occupy
-    datatype: yesnoradio
-  - "Parties vacated": parties_vacated
-    datatype: yesnoradio
+  - "Choose one:": occupancy_status
+    input type: radio
+    choices:
+      - The premises are still occupied: occupied
+      - The parties have vacated the premises: vacated
+    required: True
+---
+code: |
+  premise_occupy = True if occupancy_status == "occupied" else False
+  parties_vacated = True if occupancy_status == "vacated" else False
 ---
 id: what date was the premise vacated
 question: |
